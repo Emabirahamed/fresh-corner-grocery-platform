@@ -17,23 +17,21 @@ export default function Home() {
           
           <div className="flex gap-4 justify-center">
             <Link 
-              href="/products"
+              href="/auth/login"
               className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-colors"
             >
-              এখনই কিনুন
+              লগইন করুন
             </Link>
-            <a 
-              href="https://github.com/Emabirahamed/fresh-corner-grocery-platform"
-              target="_blank"
+            <Link 
+              href="/products"
               className="bg-white hover:bg-gray-50 text-green-600 px-8 py-4 rounded-lg text-lg font-semibold border-2 border-green-600 transition-colors"
             >
-              GitHub
-            </a>
+              পণ্য দেখুন
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* Features */}
       <section className="container mx-auto px-4 py-16">
         <h2 className="text-3xl font-bold text-center mb-12">কেন আমাদের বেছে নেবেন?</h2>
         <div className="grid md:grid-cols-3 gap-8">
