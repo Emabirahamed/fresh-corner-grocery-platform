@@ -1,0 +1,4 @@
+ id | name_en | name_bn | slug | description_en | description_bn | category_id | sku | barcode | price | discount_price | discount_percentage | unit | unit_value | stock_quantity | min_order_quantity | max_order_quantity | image_url | images | is_available | is_featured | is_organic | tags | nutrition_info | created_at | updated_at 
+----+---------+---------+------+----------------+----------------+-------------+-----+---------+-------+----------------+---------------------+------+------------+----------------+--------------------+--------------------+-----------+--------+--------------+-------------+------------+------+----------------+------------+------------
+(0 rows)
+
