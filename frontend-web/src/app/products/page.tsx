@@ -14,19 +14,58 @@ interface Product {
 export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
+  const [addingToCart, setAddingToCart] = useState<number | null>(null)
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/products')
-      .then(res => res.json())
-      .then(data => {
-        setProducts(data.products || [])
-        setLoading(false)
-      })
-      .catch(err => {
-        console.error(err)
-        setLoading(false)
-      })
+    fetchProducts()
   }, [])
+
+  const fetchProducts = async () => {
+    try {
+      const res = await fetch('http://localhost:5000/api/products')
+      const data = await res.json()
+      setProducts(data.products || [])
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const addToCart = async (productId: number) => {
+    const token = localStorage.getItem('token')
+    
+    if (!token) {
+      alert('প্রথমে লগইন করুন')
+      window.location.href = '/auth/login'
+      return
+    }
+
+    setAddingToCart(productId)
+
+    try {
+      const res = await fetch('http://localhost:5000/api/cart/add', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ productId, quantity: 1 })
+      })
+
+      const data = await res.json()
+
+      if (data.success) {
+        alert('✅ ' + data.message)
+      } else {
+        alert('❌ ' + data.message)
+      }
+    } catch (error) {
+      alert('কার্টে যোগ করতে সমস্যা হয়েছে')
+    } finally {
+      setAddingToCart(null)
+    }
+  }
 
   if (loading) {
     return (
@@ -47,6 +86,7 @@ export default function ProductsPage() {
           <nav className="space-x-4">
             <Link href="/" className="text-gray-600 hover:text-green-600">হোম</Link>
             <Link href="/products" className="text-green-600 font-semibold">পণ্য</Link>
+            <Link href="/cart" className="text-gray-600 hover:text-green-600">কার্ট</Link>
           </nav>
         </div>
       </header>
@@ -71,8 +111,12 @@ export default function ProductsPage() {
                 <p className="text-sm text-gray-500 mb-2">{product.name_en}</p>
                 <p className="text-green-600 text-2xl font-bold mb-2">৳{product.price}</p>
                 <p className="text-gray-500 text-sm mb-4">স্টক: {product.stock_quantity}</p>
-                <button className="w-full bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
-                  কার্টে যোগ করুন
+                <button 
+                  onClick={() => addToCart(product.id)}
+                  disabled={addingToCart === product.id}
+                  className="w-full bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition disabled:bg-gray-400"
+                >
+                  {addingToCart === product.id ? 'যোগ করা হচ্ছে...' : '🛒 কার্টে যোগ করুন'}
                 </button>
               </div>
             ))}
