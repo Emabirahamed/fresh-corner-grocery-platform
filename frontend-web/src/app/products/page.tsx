@@ -87,6 +87,7 @@ export default function ProductsPage() {
             <Link href="/" className="text-gray-600 hover:text-green-600">হোম</Link>
             <Link href="/products" className="text-green-600 font-semibold">পণ্য</Link>
             <Link href="/cart" className="text-gray-600 hover:text-green-600">কার্ট</Link>
+            <Link href="/orders" className="text-gray-600 hover:text-green-600">আমার অর্ডার</Link>
           </nav>
         </div>
       </header>

@@ -261,9 +261,11 @@ export default function CartPage() {
                   </div>
                 </div>
 
-                <button className="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 font-semibold">
-                  চেকআউট করুন
-                </button>
+                <Link 
+                  href="/checkout"
+                        className="block w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 font-semibold text-center">
+                        চেকআউট করুন
+               </Link>
 
                 <Link 
                   href="/products"
