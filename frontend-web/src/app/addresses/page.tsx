@@ -62,7 +62,7 @@ export default function AddressesPage() {
       const token = localStorage.getItem('token')
       if (!token) { router.push('/auth/login'); return }
 
-      const res = await fetch('http://localhost:5000/api/addresses', {
+      const res = await fetch('${process.env.NEXT_PUBLIC_API_URL}/api/addresses', {
         headers: { 'Authorization': `Bearer ${token}` }
       })
       const data = await res.json()
@@ -80,7 +80,7 @@ export default function AddressesPage() {
 
     try {
       const token = localStorage.getItem('token')
-      const res = await fetch('http://localhost:5000/api/addresses/add', {
+      const res = await fetch('${process.env.NEXT_PUBLIC_API_URL}/api/addresses/add', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -118,7 +118,7 @@ export default function AddressesPage() {
 
     try {
       const token = localStorage.getItem('token')
-      const res = await fetch(`http://localhost:5000/api/addresses/${addressId}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/addresses/${addressId}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       })
@@ -136,7 +136,7 @@ export default function AddressesPage() {
     try {
       const token = localStorage.getItem('token')
       const res = await fetch(
-        `http://localhost:5000/api/addresses/${addressId}/set-default`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/addresses/${addressId}/set-default`,
         {
           method: 'PUT',
           headers: { 'Authorization': `Bearer ${token}` }

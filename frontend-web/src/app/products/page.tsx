@@ -65,7 +65,7 @@ export default function ProductsPage() {
     try {
       const token = localStorage.getItem('token')
       if (!token) return
-      const res = await fetch('http://localhost:5000/api/cart', {
+      const res = await fetch('${process.env.NEXT_PUBLIC_API_URL}/api/cart', {
         headers: { 'Authorization': `Bearer ${token}` }
       })
       const data = await res.json()
@@ -75,7 +75,7 @@ export default function ProductsPage() {
 
   const fetchCategories = async () => {
     try {
-      const res = await fetch('http://localhost:5000/api/products/categories/list')
+      const res = await fetch('${process.env.NEXT_PUBLIC_API_URL}/api/products/categories/list')
       const data = await res.json()
       if (data.success) setCategories(data.categories)
     } catch (error) {}
@@ -94,7 +94,7 @@ export default function ProductsPage() {
       params.append('page', currentPage.toString())
       params.append('limit', '12')
 
-      const res = await fetch(`http://localhost:5000/api/products/search?${params}`)
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products/search?${params}`)
       const data = await res.json()
 
       if (data.success) {
@@ -120,7 +120,7 @@ export default function ProductsPage() {
 
     setAddingToCart(productId)
     try {
-      const res = await fetch('http://localhost:5000/api/cart/add', {
+      const res = await fetch('${process.env.NEXT_PUBLIC_API_URL}/api/cart/add', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,

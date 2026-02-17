@@ -50,7 +50,7 @@ export default function CheckoutPage() {
         return
       }
 
-      const res = await fetch('http://localhost:5000/api/cart', {
+      const res = await fetch('${process.env.NEXT_PUBLIC_API_URL}/api/cart', {
         headers: { 'Authorization': `Bearer ${token}` }
       })
 
@@ -83,7 +83,7 @@ export default function CheckoutPage() {
 
     try {
       const token = localStorage.getItem('token')
-      const res = await fetch('http://localhost:5000/api/orders/place', {
+      const res = await fetch('${process.env.NEXT_PUBLIC_API_URL}/api/orders/place', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,

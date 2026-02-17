@@ -41,7 +41,7 @@ export default function CartPage() {
         return
       }
 
-      const res = await fetch('http://localhost:5000/api/cart', {
+      const res = await fetch('${process.env.NEXT_PUBLIC_API_URL}/api/cart', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -65,7 +65,7 @@ export default function CartPage() {
     setUpdating(true)
     try {
       const token = localStorage.getItem('token')
-      const res = await fetch(`http://localhost:5000/api/cart/update/${itemId}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/cart/update/${itemId}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -94,7 +94,7 @@ export default function CartPage() {
     setUpdating(true)
     try {
       const token = localStorage.getItem('token')
-      const res = await fetch(`http://localhost:5000/api/cart/remove/${itemId}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/cart/remove/${itemId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -119,7 +119,7 @@ export default function CartPage() {
     setUpdating(true)
     try {
       const token = localStorage.getItem('token')
-      const res = await fetch('http://localhost:5000/api/cart/clear', {
+      const res = await fetch('${process.env.NEXT_PUBLIC_API_URL}/api/cart/clear', {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
