@@ -49,7 +49,7 @@ export default function AddressesPage() {
     try {
       const token = localStorage.getItem('token')
       if (!token) { router.push('/auth/login'); return }
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/addresses`), {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/addresses`, {
         headers: { 'Authorization': `Bearer ${token}` }
       })
       const data = await res.json()
@@ -66,7 +66,7 @@ export default function AddressesPage() {
     setSaving(true)
     try {
       const token = localStorage.getItem('token')
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/addresses/add`), {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/addresses/add`, {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...form, phone: '+880' + form.phone })
@@ -86,7 +86,7 @@ export default function AddressesPage() {
     if (!confirm('এই ঠিকানাটি মুছে ফেলতে চান?')) return
     try {
       const token = localStorage.getItem('token')
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/addresses/${addressId}`), {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/addresses/${addressId}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       })
@@ -98,7 +98,7 @@ export default function AddressesPage() {
   const handleSetDefault = async (addressId: number) => {
     try {
       const token = localStorage.getItem('token')
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/addresses/${addressId}/set-default`), {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/addresses/${addressId}/set-default`, {
         method: 'PUT',
         headers: { 'Authorization': `Bearer ${token}` }
       })
