@@ -75,7 +75,7 @@ export default function ProductsPage() {
 
   const fetchCategories = async () => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products/categories/list')
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products/categories/list`)
       const data = await res.json()
       if (data.success) setCategories(data.categories)
     } catch (error) {}

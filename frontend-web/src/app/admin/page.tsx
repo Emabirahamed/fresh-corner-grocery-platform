@@ -57,9 +57,9 @@ export default function AdminDashboard() {
   const fetchAll = async () => {
     try {
       const [warehouseRes, alertRes, stockRes] = await Promise.all([
-        fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/warehouses'),
-        fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/warehouses/alerts/expiry'),
-        fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/warehouses/alerts/low-stock')
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/warehouses`),
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/warehouses/alerts/expiry`),
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/warehouses/alerts/low-stock`)
       ])
 
       const [warehouseData, alertData, stockData] = await Promise.all([
