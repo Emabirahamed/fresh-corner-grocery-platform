@@ -49,8 +49,8 @@ export default function AddressesPage() {
     try {
       const token = localStorage.getItem('token')
       if (!token) { router.push('/auth/login'); return }
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/addresses`, {
-        headers: { 'Authorization': `Bearer ${token}` }
+      const res = await fetch(process.env.NEXT_PUBLIC_API_URL + '/api/addresses', {
+        headers: { 'Authorization': 'Bearer ' + token }
       })
       const data = await res.json()
       if (data.success) setAddresses(data.addresses)
@@ -66,9 +66,9 @@ export default function AddressesPage() {
     setSaving(true)
     try {
       const token = localStorage.getItem('token')
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/addresses/add`, {
+      const res = await fetch(process.env.NEXT_PUBLIC_API_URL + '/api/addresses/add', {
         method: 'POST',
-        headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+        headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...form, phone: '+880' + form.phone })
       })
       const data = await res.json()
@@ -86,9 +86,9 @@ export default function AddressesPage() {
     if (!confirm('এই ঠিকানাটি মুছে ফেলতে চান?')) return
     try {
       const token = localStorage.getItem('token')
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/addresses/${addressId}`, {
+      const res = await fetch(process.env.NEXT_PUBLIC_API_URL + '/api/addresses/' + addressId, {
         method: 'DELETE',
-        headers: { 'Authorization': `Bearer ${token}` }
+        headers: { 'Authorization': 'Bearer ' + token }
       })
       const data = await res.json()
       if (data.success) { fetchAddresses(); alert('✅ ' + data.message) }
@@ -98,9 +98,9 @@ export default function AddressesPage() {
   const handleSetDefault = async (addressId: number) => {
     try {
       const token = localStorage.getItem('token')
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/addresses/${addressId}/set-default`, {
+      const res = await fetch(process.env.NEXT_PUBLIC_API_URL + '/api/addresses/' + addressId + '/set-default', {
         method: 'PUT',
-        headers: { 'Authorization': `Bearer ${token}` }
+        headers: { 'Authorization': 'Bearer ' + token }
       })
       const data = await res.json()
       if (data.success) { fetchAddresses(); alert('✅ ' + data.message) }
@@ -145,7 +145,7 @@ export default function AddressesPage() {
                 <div className="flex gap-3">
                   {LABELS.map(lbl => (
                     <button key={lbl.value} type="button" onClick={() => setForm({...form, label: lbl.value})}
-                      className={`flex-1 py-2 rounded-lg border-2 transition ${form.label === lbl.value ? 'border-green-500 bg-green-50 text-green-700' : 'border-gray-200 hover:border-gray-300'}`}>
+                      className={'flex-1 py-2 rounded-lg border-2 transition ' + (form.label === lbl.value ? 'border-green-500 bg-green-50 text-green-700' : 'border-gray-200 hover:border-gray-300')}>
                       <span className="text-xl">{lbl.icon}</span>
                       <span className="block text-sm">{lbl.text}</span>
                     </button>
@@ -213,7 +213,7 @@ export default function AddressesPage() {
                   <input type="number" value={form.latitude} onChange={(e) => setForm({...form, latitude: e.target.value})} placeholder="Latitude (23.XXXX)" step="0.000001" className="w-full px-3 py-2 border rounded-lg text-sm" />
                   <input type="number" value={form.longitude} onChange={(e) => setForm({...form, longitude: e.target.value})} placeholder="Longitude (90.XXXX)" step="0.000001" className="w-full px-3 py-2 border rounded-lg text-sm" />
                 </div>
-                <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" className="mt-2 inline-block text-blue-600 text-sm hover:underline">🗺️ Google Maps এ খুলুন →</a>
+                <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" className="mt-2 inline-block text-blue-600 text-sm hover:underline">🗺️ Google Maps এ খুলুন</a>
               </div>
               <label className="flex items-center gap-2 cursor-pointer">
                 <input type="checkbox" checked={form.is_default} onChange={(e) => setForm({...form, is_default: e.target.checked})} className="w-4 h-4 text-green-600" />
@@ -238,7 +238,7 @@ export default function AddressesPage() {
             {addresses.map(address => {
               const labelInfo = getLabelInfo(address.label)
               return (
-                <div key={address.id} className={`bg-white rounded-lg p-5 shadow-sm border-2 ${address.is_default ? 'border-green-400' : 'border-transparent'}`}>
+                <div key={address.id} className={'bg-white rounded-lg p-5 shadow-sm border-2 ' + (address.is_default ? 'border-green-400' : 'border-transparent')}>
                   <div className="flex justify-between items-start">
                     <div className="flex gap-3">
                       <span className="text-2xl">{labelInfo.icon}</span>
@@ -251,14 +251,14 @@ export default function AddressesPage() {
                         <p className="text-gray-600 text-sm">{address.phone}</p>
                         <p className="text-gray-700 mt-1">
                           {address.address_line1}
-                          {address.floor_number && `, ${address.floor_number} তলা`}
-                          {address.apartment_number && `, অ্যাপার্ট ${address.apartment_number}`}
+                          {address.floor_number && ', ' + address.floor_number + ' তলা'}
+                          {address.apartment_number && ', অ্যাপার্ট ' + address.apartment_number}
                         </p>
                         {address.address_line2 && <p className="text-gray-600 text-sm">{address.address_line2}</p>}
                         <p className="text-gray-600 text-sm">{[address.area, address.thana, address.district].filter(Boolean).join(', ')}</p>
                         {address.landmark && <p className="text-gray-500 text-sm">🏷️ {address.landmark}</p>}
                         {address.latitude && address.longitude && (
-                          <a href={`https://maps.google.com/?q=${address.latitude},${address.longitude}`} target="_blank" rel="noopener noreferrer" className="text-blue-600 text-sm hover:underline">📍 Google Maps এ দেখুন</a>
+                          <a href={'https://maps.google.com/?q=' + address.latitude + ',' + address.longitude} target="_blank" rel="noopener noreferrer" className="text-blue-600 text-sm hover:underline">📍 Google Maps এ দেখুন</a>
                         )}
                       </div>
                     </div>
