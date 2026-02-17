@@ -23,7 +23,7 @@ interface User {
   created_at: string
 }
 
-const API = '${process.env.NEXT_PUBLIC_API_URL}/api'
+const API = `${process.env.NEXT_PUBLIC_API_URL}/api`
 
 export default function ProfilePage() {
   const router = useRouter()

@@ -22,7 +22,7 @@ export default function LoginPage() {
     const fullPhone = '+880' + phone
 
     try {
-      const res = await fetch('${process.env.NEXT_PUBLIC_API_URL}/api/auth/request-otp', {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/request-otp`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ phone: fullPhone })
@@ -51,7 +51,7 @@ export default function LoginPage() {
     const fullPhone = '+880' + phone
 
     try {
-      const res = await fetch('${process.env.NEXT_PUBLIC_API_URL}/api/auth/verify-otp', {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/verify-otp`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ phone: fullPhone, otp })
