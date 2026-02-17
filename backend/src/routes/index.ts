@@ -4,6 +4,7 @@ import cartRoutes from './cart.routes';
 import orderRoutes from './order.routes';
 import warehouseRoutes from './warehouse.routes';
 import addressRoutes from './address.routes';
+import productRoutes from './product.routes';
 import { authMiddleware } from '../middlewares/auth.middleware';
 import pool from '../config/database';
 
@@ -14,7 +15,15 @@ router.get('/', (req, res) => {
     message: 'ফ্রেশ কর্নার API',
     version: '2.0.0',
     status: 'সচল',
-    features: ['auth', 'cart', 'orders', 'warehouse', 'address']
+    endpoints: {
+      auth: '/api/auth',
+      products: '/api/products',
+      search: '/api/products/search',
+      cart: '/api/cart',
+      orders: '/api/orders',
+      warehouses: '/api/warehouses',
+      addresses: '/api/addresses'
+    }
   });
 });
 
@@ -23,22 +32,18 @@ router.use('/cart', cartRoutes);
 router.use('/orders', orderRoutes);
 router.use('/warehouses', warehouseRoutes);
 router.use('/addresses', addressRoutes);
+router.use('/products', productRoutes);
 
-router.get('/products', async (req, res) => {
-  try {
-    const result = await pool.query(
-      'SELECT * FROM products WHERE is_available = true ORDER BY id LIMIT 20'
-    );
-    res.json({ success: true, count: result.rows.length, products: result.rows });
-  } catch (error: any) {
-    res.status(500).json({ success: false, error: error.message });
-  }
-});
-
+// Categories
 router.get('/categories', async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM categories ORDER BY id');
-    res.json({ success: true, count: result.rows.length, categories: result.rows });
+    const result = await pool.query(
+      `SELECT c.*, COUNT(p.id) as product_count
+       FROM categories c
+       LEFT JOIN products p ON c.id = p.category_id AND p.is_available = true
+       GROUP BY c.id ORDER BY c.name_bn`
+    );
+    res.json({ success: true, categories: result.rows });
   } catch (error: any) {
     res.status(500).json({ success: false, error: error.message });
   }
